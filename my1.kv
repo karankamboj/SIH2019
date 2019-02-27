@@ -1,0 +1,697 @@
+#: import WipeTransition kivy.uix.screenmanager.WipeTransition
+
+ConnectingSigninRegister:
+    transition: WipeTransition()
+    HomePage:
+    FilterPage:
+    SigninWindow:
+    AddWindow:
+    RegisterWindow:
+
+<FlatButton@ButtonBehavior+Label>:
+    font_size:16
+
+<CustomDropDown>:
+    Button:
+        id: btn
+        text: '-'
+        on_release: dropdown.open(self)
+        size_hint_y: None
+        height: '48dp'
+
+    Widget:
+        on_parent: dropdown.dismiss()
+
+    DropDown:
+
+        id: dropdown
+        on_select: btn.text = 'Selected value: {}'.format(args[1])
+
+        Button:
+            text: 'Value A'
+            size_hint_y: None
+            height: '48dp'
+            on_release: dropdown.select('A')
+
+        Button:
+            text: 'Value B'
+            size_hint_y: None
+            height: '48dp'
+            on_release: dropdown.select('B')
+
+        Button:
+            text: 'Value C'
+            size_hint_y: None
+            height: '48dp'
+            on_release: dropdown.select('C')
+
+
+
+<FilterPage>:
+    name:"filterpage"
+    orientation: "vertical"
+    spacing: 10
+    space_x:self.size[0]/3
+
+    canvas.before:
+
+        Rectangle:
+            size: self.size
+            pos: self.pos
+            source: 'filter.jpg'
+
+    BoxLayout:
+        size_hint_y: None
+        height: 50
+        pos_hint:{'top':1}
+
+        canvas.before:
+            Color:
+                rgba: (.06,.45,.45,1)
+
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label:
+            text: "Filter Page"
+            bold: True
+            size_hint_x: .9
+
+        FlatButton:
+            text: "x"
+            size_hint_x: .1
+            on_release:root.closebutton()
+    Label:
+        height:200
+
+    BoxLayout:
+        id:filterarea
+        height: 490
+        size_hint_x:None
+        width:200
+        pos_hint:{'center_x':.5,'center_y':.5}
+        size_hint_y:None
+        orientation:"vertical"
+        spacing:30
+
+        TextInput:
+            id: area_filter
+            size_hint_y:None
+            height:30
+            hint_text: "Area"
+            multiline: False
+            focus: True
+            on_text_validate: address_filter.focus= True
+
+
+        TextInput:
+            id: address_filter
+            size_hint_y:None
+            height:30
+            hint_text: "Address"
+            multiline: False
+        Label:
+            height:100
+
+        Label:
+            color: (1,1,1,1)
+            text: "Max Price : "
+            bold: True
+
+        BoxLayout:
+
+            size_hint_y:None
+
+            Slider:
+                min: 1
+                size_hint_y:None
+                width:100
+                max: 10000000
+                step: 100
+                id: slider_id
+            Label:
+                color: (0.06,.45,.45,1)
+                text: str(slider_id.value)
+                bold: True
+                size_hint_x: .2
+
+        Button:
+            text:"Search"
+            height:40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            on_release : root.filtersearchbutton()
+        Label:
+            height:200
+
+
+
+
+    BoxLayout:
+        orientation:'horizontal'
+
+        Button:
+            text: "Show Lands"
+            size_hint_y:None
+#            size_hint_x:None
+            height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            #pos_hint: {'left': .5,'bottom':1}
+            on_release: root.showland()
+
+
+        Button:
+            text: "Prev"
+            size_hint_y:None
+#            size_hint_x:None
+            height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            #pos_hint: {'left': 0,'bottom':1}
+            on_release: root.prevland()
+
+        Button:
+            text: "Next"
+            size_hint_y:None
+#            size_hint_x:None
+            height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            #pos_hint: {'left': .75,'bottom':1}
+            on_release: root.nextland()
+
+        Button:
+            text: "Bookmarks"
+            size_hint_y:None
+#            size_hint_x:None
+            height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            #pos_hint: {'left': .25,'bottom':1}
+            on_release: app.current.root="bookmark"
+
+        Button:
+            text: "Filter"
+            size_hint_y:None
+#            size_hint_x:None
+            height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            #pos_hint: {'left': .25,'bottom':1}
+            on_release: root.gotofilter()
+
+        Button:
+            text: "Auction"
+            size_hint_y:None
+#            size_hint_x:None
+            height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            #pos_hint: {'left': .25,'bottom':1}
+            on_release: app.current.root="auction"
+
+        Button:
+            text: "Clear /Home"
+            size_hint_y:None
+#            size_hint_x:None
+            height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            #pos_hint: {'left': 1,'bottom':1}
+            on_release: root.clearbutton()
+
+        Button:
+            text: "Signout"
+            size_hint_y:None
+#            size_hint_x:None
+            height: 40
+            background_color: (1,0,0,.75)
+            background_normal: ""
+            #pos_hint: {'left': 1,'bottom':1}
+            on_release: root.logout()
+
+<HomePage>:
+    name:"homepage"
+    orientation: "vertical"
+    spacing: 10
+    space_x:self.size[0]/3
+
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'k.jpg'
+
+    BoxLayout:
+        size_hint_y: None
+        height: 50
+        pos_hint:{'top':1}
+
+        canvas.before:
+            Color:
+                rgba: (.06,.45,.45,1)
+
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label:
+            text: "Home Page"
+            bold: True
+            size_hint_x: .9
+
+        FlatButton:
+            text: "x"
+            size_hint_x: .1
+            on_release:root.closebutton()
+
+
+    BoxLayout:
+        height: 490
+        pos_hint:{'center_x':.5,'center_y':.5}
+        size_hint_y:None
+        orientation:"vertical"
+
+        Accordion:
+            id:acc
+            orientation: 'vertical'
+
+    BoxLayout:
+        orientation:'horizontal'
+        canvas.before:
+            Color:
+                rgba: (0,0,0,1)
+
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+
+        Button:
+            text: "Show Lands"
+    #        size_hint_y:None
+    #        size_hint_x:None
+    #        height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            #pos_hint: {'left': .5,'bottom':1}
+            on_release: root.showland()
+
+
+        Button:
+            text: "Prev"
+    #        size_hint_y:None
+    #        size_hint_x:None
+    #        height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            #pos_hint: {'left': 0,'bottom':1}
+            on_release: root.prevland()
+
+        Button:
+            text: "Next"
+    #        size_hint_y:None
+    #        size_hint_x:None
+    #        height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            #pos_hint: {'left': .75,'bottom':1}
+            on_release: root.nextland()
+
+        Button:
+            id: btn
+            text: 'Sort'
+            size_hint_x: None
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            on_release: dropdown.open(self)
+
+            Widget:
+                on_parent: dropdown.dismiss()
+
+            DropDown:
+                id: dropdown
+                Button:
+                    id: droppricebutton
+                    text: 'Price'
+                    size_hint_y: None
+                    height: '48dp'
+                    background_color: (.06,.45,.45,1)
+                    background_normal: ""
+                    on_release: root.sort1()
+
+                Button:
+                    id: dropareabutton
+                    text: 'Area'
+                    size_hint_y: None
+                    background_color: (.06,.45,.45,1)
+                    background_normal: ""
+                    height: '48dp'
+                    on_release: root.sort2()
+
+
+
+
+
+        Button:
+            text: "Bookmarks"
+    #        size_hint_y:None
+    #        size_hint_x:None
+    #        height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            #pos_hint: {'left': .25,'bottom':1}
+            on_release: app.current.root="bookmark"
+
+        Button:
+            text: "Filter"
+    #        size_hint_y:None
+    #        size_hint_x:None
+    #        height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            #pos_hint: {'left': .25,'bottom':1}
+            on_release: root.gotofilter()
+
+        Button:
+            text: "Auction"
+    #        size_hint_y:None
+    #        size_hint_x:None
+    #        height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            #pos_hint: {'left': .25,'bottom':1}
+            on_release: app.current.root="auction"
+
+        Button:
+            text: "Clear/Home"
+    #        size_hint_y:None
+    #        size_hint_x:None
+    #        height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            #pos_hint: {'left': 1,'bottom':1}
+            on_release: root.clearbutton()
+
+        Button:
+            text: "Signout"
+    #        size_hint_y:None
+    #        size_hint_x:None
+    #        height: 40
+            background_color: (1,0,0,.75)
+            background_normal: ""
+            #pos_hint: {'left': 1,'bottom':1}
+            on_release: root.logout()
+
+
+
+<AddWindow>:
+    name:"addland"
+    id:add_land
+    orientation: "vertical"
+    spacing: 10
+    space_x:self.size[0]/3
+
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    BoxLayout:
+        size_hint_y: None
+        height: 50
+
+        canvas.before:
+            Color:
+                rgba: (.06,.45,.45,1)
+
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label:
+            text: "Welcome Admin"
+            bold: True
+            size_hint_x: .9
+
+        FlatButton:
+            text: "x"
+            size_hint_x: .1
+            on_release:root.closebutton()
+
+
+    BoxLayout:
+        orientation:"vertical"
+        padding: add_land.space_x, 10
+        spacing:20
+
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 10
+            size_hint_y:None
+            height: 180
+            Label:
+                id:infoAdd
+                text:""
+                markup:True
+                size_hint_y:None
+                height:20
+
+            TextInput:
+                id:add_land_name
+                hint_text: "Name"
+                multiline: False
+                focus:True
+                on_text_validate: add_land_price.focus=True
+
+            TextInput:
+                id:add_land_price
+                hint_text: "Price"
+                multiline: False
+                on_text_validate: add_land_area.focus=True
+
+            TextInput:
+                id:add_land_area
+                hint_text: "Area"
+                multiline: False
+                on_text_validate: add_land_address.focus=True
+
+            TextInput:
+                id:add_land_address
+                hint_text: "Address"
+                multiline: False
+                on_text_validate: root.addland()
+
+
+
+
+        Button:
+            text: "Add New Land"
+            size_hint_y:None
+            height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            on_release:root.addland()
+
+        Button:
+            text: "Logout!"
+            size_hint_y:None
+            height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            on_release:app.root.current="login"
+
+        Label:
+            height: 40
+
+
+
+
+<SigninWindow>:
+    name:"login"
+    id:main_win
+    orientation: "vertical"
+    spacing: 10
+    space_x:self.size[0]/3
+
+    canvas.before:
+        Color:
+            rgba:
+
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    BoxLayout:
+        size_hint_y: None
+        height: 50
+
+        canvas.before:
+            Color:
+                rgba: (.06,.45,.45,1)
+
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label:
+            text: "Squady Six Login Page"
+            bold: True
+            size_hint_x: .9
+
+        FlatButton:
+            text: "x"
+            size_hint_x: .1
+            on_release:root.closebutton()
+
+    BoxLayout:
+        orientation:"vertical"
+        padding: main_win.space_x, 10
+        spacing:20
+
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 10
+            size_hint_y:None
+            height: 100
+            Label:
+                id:infologin
+                text:""
+                markup:True
+                size_hint_y:None
+                height:20
+            TextInput:
+                focus: True
+                id:username_field
+                hint_text: "Username"
+                multiline: False
+                on_text_validate: pwd_field.focus=True
+
+            TextInput:
+                id:pwd_field
+                hint_text: "Password"
+                multiline: False
+                password:True
+                on_text_validate:root.validate_user();
+
+        Button:
+            text: "Sign in"
+            size_hint_y:None
+            height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            on_release:root.validate_user()
+
+        Button:
+            text: "Create an Account"
+            size_hint_y:None
+            height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            on_release: app.root.current="register"
+
+        Label:
+            height: 40
+
+
+<RegisterWindow>:
+    name:"register"
+    id:reg_win
+    orientation: "vertical"
+    spacing: 10
+    space_x:self.size[0]/3
+
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    BoxLayout:
+        size_hint_y: None
+        height: 50
+
+        canvas.before:
+            Color:
+                rgba: (.06,.45,.45,1)
+
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label:
+            text: "Register"
+            bold: True
+            size_hint_x: .9
+
+        FlatButton:
+            text: "x"
+            size_hint_x: .1
+            on_release:root.closebutton()
+
+
+    BoxLayout:
+        orientation:"vertical"
+        padding: reg_win.space_x, 10
+        spacing:20
+
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 10
+            size_hint_y:None
+            height: 180
+            Label:
+                id:inforegister
+                text:""
+                markup:True
+                size_hint_y:None
+                height:20
+
+            TextInput:
+                id:name_register
+                hint_text: "Name"
+                multiline: False
+                focus:True
+                on_text_validate: email_register.focus=True
+
+            TextInput:
+                id:email_register
+                hint_text: "Email"
+                multiline: False
+                on_text_validate: username_register.focus=True
+
+
+            TextInput:
+                id:username_register
+                hint_text: "Username"
+                multiline: False
+                on_text_validate: password_register.focus=True
+
+            TextInput:
+                id:password_register
+                hint_text: "Password"
+                multiline: False
+                password:True
+                on_text_validate: root.completeregister()
+
+
+        Button:
+            text: "Register"
+            size_hint_y:None
+            height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            on_release:root.completeregister()
+
+        Button:
+            text: "Back"
+            size_hint_y:None
+            height: 40
+            background_color: (.06,.45,.45,1)
+            background_normal: ""
+            on_release:app.root.current="login"
+
+        Label:
+            height: 40
